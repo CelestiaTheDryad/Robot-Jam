@@ -970,10 +970,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraDistance: 9
   playerDistance: 5.25
-  baseSpeed: 1
-  jumpSpeed: 4
+  baseSpeed: 2.4
+  jumpSpeed: 8
   jumpLimiterRange: 0.31
   mainCamera: {fileID: 282840810}
+  cameraSmoothing: 1
 --- !u!136 &1594455144
 CapsuleCollider:
   m_ObjectHideFlags: 0

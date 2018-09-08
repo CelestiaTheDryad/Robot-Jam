@@ -10,9 +10,20 @@ public class PlayerController : MonoBehaviour {
     public float jumpSpeed;
     public float jumpLimiterRange;
     public GameObject mainCamera;
+    public bool cameraSmoothing;
     
     private Rigidbody body;
     private bool hasJumped = false;
+    private float timeSinceCentered = 0.0f;
+    private float amountToDip = 0.0f;
+
+    //smoothing config values
+    private float smoothCameraBaseSpeed = 0.1f;
+    private float smoothCameraMaxSpeed = 0.85f;
+    private float cameraDipDampening = 0.9f;
+    private float cameraDipThreshold = 1.0f;
+    private float cameraDipMultiplier = 0.125f;
+    private float cameraDipMaximum = 2.0f;
 
     // Use this for initialization
     void Start () {
@@ -25,6 +36,13 @@ public class PlayerController : MonoBehaviour {
         Vector3 movementVector = new Vector3(baseSpeed * Mathf.Sin(playerAngle * Mathf.Deg2Rad), 0, baseSpeed * Mathf.Cos(playerAngle * Mathf.Deg2Rad)) * moveValue;
         //keep falling velocity intact
         movementVector.y = body.velocity.y;
+
+        //store downward velocity for camera dip
+        if(body.velocity.y < -cameraDipThreshold) {
+            //Debug.Log(body.velocity.y);
+            amountToDip = Mathf.Max(body.velocity.y * cameraDipMultiplier, -cameraDipMaximum);
+        }
+
         body.velocity = movementVector;
     }
 
@@ -45,7 +63,7 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float movement = Input.GetAxisRaw("Horizontal");
+        float movement = Input.GetAxis("Horizontal");
         doMovement(movement);
         float jumpValue = Input.GetAxisRaw("Jump");
         doJump(jumpValue);
@@ -60,7 +78,35 @@ public class PlayerController : MonoBehaviour {
         //move camera
         Vector3 cameraPosition = rawPosition.normalized * cameraDistance;
         cameraPosition.y = transform.position.y;
-        mainCamera.transform.position = cameraPosition;
-        mainCamera.transform.LookAt(this.transform);
+        if (cameraSmoothing) {
+
+            //artificially move camera further down to have a dip when the player lands
+            if(Mathf.Abs(body.velocity.y) < cameraDipThreshold) {
+                cameraPosition.y += amountToDip;
+                amountToDip *= cameraDipDampening;
+            }
+            else if(body.velocity.y > cameraDipThreshold) {
+                amountToDip = 0.0f;
+            }
+            float distToMove = (cameraPosition - mainCamera.transform.position).magnitude;
+
+            if(distToMove > 1) {
+                timeSinceCentered += Time.deltaTime;
+            }
+            else {
+                timeSinceCentered = 0;
+            }
+
+            float movementPower = smoothCameraBaseSpeed + Mathf.Clamp(timeSinceCentered, 0, smoothCameraMaxSpeed - smoothCameraBaseSpeed);
+
+            Vector3 newPos = (cameraPosition - mainCamera.transform.position) * movementPower + mainCamera.transform.position;
+
+            mainCamera.transform.position = newPos;
+            mainCamera.transform.LookAt(this.transform);
+        }
+        else {
+            mainCamera.transform.position = cameraPosition;
+            mainCamera.transform.LookAt(this.transform);
+        }
     }
 }
