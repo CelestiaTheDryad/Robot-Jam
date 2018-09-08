@@ -4,76 +4,63 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public CameraPoint[] cameraPoints;
-    public int cameraDistance;
+    public float cameraDistance;
+    public float playerDistance;
     public float baseSpeed;
+    public float jumpSpeed;
+    public float jumpLimiterRange;
     public GameObject mainCamera;
-
-    private float currentAngle = 0;
-    private CameraPoint currentViewpoint;
-    private bool doMovement = true;
-    private float changePerTick;
+    
+    private Rigidbody body;
+    private bool hasJumped = false;
 
     // Use this for initialization
-    void Start() {
-        if(cameraPoints.Length > 0) {
-            processNewCameraPoint(cameraPoints[0]);
+    void Start () {
+		body = GetComponent<Rigidbody>();
+	}
+
+    void doMovement(float moveValue) {
+        Vector3 positionVector = new Vector3(transform.position.x, 0, transform.position.z);
+        float playerAngle = Vector3.Angle(new Vector3(1, 0, 0), positionVector);
+        Vector3 movementVector = new Vector3(baseSpeed * Mathf.Sin(playerAngle * Mathf.Deg2Rad), 0, baseSpeed * Mathf.Cos(playerAngle * Mathf.Deg2Rad)) * moveValue;
+        //keep falling velocity intact
+        movementVector.y = body.velocity.y;
+        body.velocity = movementVector;
+    }
+
+    void doJump(float jumpValue) {
+        //check for player able to jump here
+
+        if (jumpValue > 0.5) {
+            if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), jumpLimiterRange) && !hasJumped) {
+                //change vertical velocity to jump velocity
+                body.velocity = new Vector3(body.velocity.x, jumpSpeed, body.velocity.z);
+                hasJumped = true;
+            }
         }
         else {
-            Debug.Log("No camera points inputted, movement considered invalid.");
-            doMovement = false;
+            hasJumped = false;
         }
-
     }
-
-    // Update is called once per frame
-    void Update() {
-        if(!doMovement) {
-            return;
-        }
-
-        //get player movement
+	
+	// Update is called once per frame
+	void Update () {
         float movement = Input.GetAxisRaw("Horizontal");
-        float newAngle = currentAngle + changePerTick * movement;
-        newAngle = Mathf.Clamp(newAngle, currentViewpoint.startAngle, currentViewpoint.endAngle);
+        doMovement(movement);
+        float jumpValue = Input.GetAxisRaw("Jump");
+        doJump(jumpValue);
 
-        Vector3 currentPos = transform.position;
+        //lock player to circle
+        Vector3 rawPosition = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 clampedPosition = rawPosition.normalized * playerDistance;
+        clampedPosition.y = transform.position.y;
 
-        Vector3 newPos = new Vector3(currentViewpoint.center.x - currentViewpoint.gamePlayRadius * Mathf.Sin(newAngle), currentPos.y,
-            currentViewpoint.center.z + currentViewpoint.gamePlayRadius * Mathf.Cos(newAngle));
+        transform.position = clampedPosition;
 
-        transform.position = newPos;
-        currentAngle = newAngle;
-
-
-    }
-
-    //called once per frame, after all update() calls
-    void LateUpdate() {
-        if(!doMovement) {
-            return;
-        }
-        //do camera movement (could probably just be in code after player movement)
-        float viewDist = currentViewpoint.gamePlayRadius + (currentViewpoint.concave ? -cameraDistance : cameraDistance);
-        Vector3 newPos = new Vector3(currentViewpoint.center.x - viewDist * Mathf.Sin(currentAngle), transform.position.y, currentViewpoint.center.z + viewDist * Mathf.Cos(currentAngle));
-
-        mainCamera.transform.position = newPos;
+        //move camera
+        Vector3 cameraPosition = rawPosition.normalized * cameraDistance;
+        cameraPosition.y = transform.position.y;
+        mainCamera.transform.position = cameraPosition;
         mainCamera.transform.LookAt(this.transform);
-        //Debug.Log(newPos);
     }
-
-    private void processNewCameraPoint(CameraPoint point) {
-        currentViewpoint = point;
-        currentAngle = currentViewpoint.startAngle;
-        changePerTick = baseSpeed / currentViewpoint.gamePlayRadius;
-    }
-}
-
-[System.Serializable]
-public class CameraPoint {
-    public Vector3 center;
-    public float gamePlayRadius;
-    public float startAngle;
-    public float endAngle;
-    public bool concave;
 }
