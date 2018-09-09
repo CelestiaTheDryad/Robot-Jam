@@ -192,7 +192,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4574556468667972}
-  - component: {fileID: 114379978193369350}
   m_Layer: 0
   m_Name: mouse_r_Leg_Knee2SHJnt
   m_TagString: Untagged
@@ -885,7 +884,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1034481568445284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.40633675, y: 2.7771301, z: 1.9582877}
+  m_LocalPosition: {x: 2.12659, y: 2.2363313e-17, z: -1.007154}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4253414518566464}
@@ -1726,25 +1725,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraDistance: 5
   playerDistance: 2
-  baseSpeed: 2.4
-  jumpSpeed: 8
+  baseSpeed: 3
+  jumpSpeed: 10
   vineSpeed: 1
   mainCamera: {fileID: 1225164276847352}
   playerMesh: {fileID: 4313659955052138}
   cameraSmoothing: 1
   playerAnimationController: {fileID: 114592941837644976}
---- !u!114 &114379978193369350
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1137257198197516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aa76cbabab776c46ac9e469573ff0b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fairy: {fileID: 0}
 --- !u!114 &114592941837644976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1768,7 +1755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aa76cbabab776c46ac9e469573ff0b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fairy: {fileID: 1745355530207758, guid: 043eb816c945e9f4281161e0683d9b81, type: 2}
+  fairy: {fileID: 0}
 --- !u!136 &136519234729657972
 CapsuleCollider:
   m_ObjectHideFlags: 1

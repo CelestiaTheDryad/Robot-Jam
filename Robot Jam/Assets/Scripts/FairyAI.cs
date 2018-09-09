@@ -89,7 +89,7 @@ public class FairyAI : MonoBehaviour
                     CurrentState = STATES.MOVE_TO_WATER;
                     goto case STATES.MOVE_TO_WATER;
                 }
-                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, GetMoveState())) < MaxDistance)
+                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, moveState.VerticalOffset)) < MaxDistance)
                 {
                     newPosition = IdleRoutine(Position, moveState);
                     break;
@@ -103,25 +103,25 @@ public class FairyAI : MonoBehaviour
                     CurrentState = STATES.MOVE_TO_WATER;
                     goto case STATES.MOVE_TO_WATER;
                 }
-                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, moveState)) < MaxDistance)
+                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, moveState.VerticalOffset)) < MaxDistance)
                 {
                     CurrentState = STATES.IDLE;
                     goto case STATES.IDLE;
                 }
-                newPosition = MoveToTarget(Player, moveState);
+                newPosition = MoveToTarget(Player, moveState, moveState.VerticalOffset);
                 Position = newPosition;
                 break;
             case STATES.MOVE_TO_WATER:
                 //Debug.Log("Moving To Water");
                 Waterable waterTarget = WaterTargets[0];
                 float vOffset = waterTarget.VerticalOffset;
-                if (Vector3.Distance(Position, GetIdealFollowPosition(waterTarget.gameObject, moveState)) < WaterMaxDistance)
+                if (Vector3.Distance(Position, GetIdealFollowPosition(waterTarget.gameObject, waterTarget.VerticalOffset)) < WaterMaxDistance)
                 {
                     CurrentState = STATES.WATER;
                     StartWatering();
                     goto case STATES.WATER;
                 }
-                newPosition = MoveToTarget(WaterTargets[0].gameObject, moveState);
+                newPosition = MoveToTarget(waterTarget.gameObject, moveState, waterTarget.VerticalOffset);
                 Position = newPosition;
                 break;
             case STATES.WATER:
@@ -156,17 +156,17 @@ public class FairyAI : MonoBehaviour
         WateringFinished = Time.fixedTime + waterable.WateringTimeNecessary;
     }
 
-    private Vector3 MoveToTarget(GameObject target, MoveState moveState)
+    private Vector3 MoveToTarget(GameObject target, MoveState moveState, float verticalOffset)
     {
-        Ideal = GetIdealFollowPosition(target, moveState);
+        Ideal = GetIdealFollowPosition(target, verticalOffset);
         Vector3 Direction = Ideal - Position;
         return Position + Direction * dt * moveState.Speed;
     }
 
-    private Vector3 GetIdealFollowPosition(GameObject target, MoveState moveState)
+    private Vector3 GetIdealFollowPosition(GameObject target, float verticalOffset)
     {
         Vector3 targetPosition = target.transform.position;
-        return new Vector3(targetPosition.x, targetPosition.y + moveState.VerticalOffset, targetPosition.z);
+        return new Vector3(targetPosition.x, targetPosition.y + verticalOffset, targetPosition.z);
     }
 
     private Vector3 IdleRoutine(Vector3 currentPosition, MoveState moveState)
