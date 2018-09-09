@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: e7ce09242ffda9b4890b2095fcac130b
+guid: 3c3a3f318eee76a4183364418fe63994
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Line002
-    400000: //RootNode
-    400002: Line002
-    2100000: Line002Mat
-    2300000: Line002
-    3300000: Line002
-    4300000: Line002
+    100000: waterfall
+    100002: //RootNode
+    400000: waterfall
+    400002: //RootNode
+    2100000: waterfallMat
+    2300000: waterfall
+    3300000: waterfall
+    4300000: waterfall
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -42,7 +42,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.15
+    globalScale: 0.02
     meshCompression: 0
     addColliders: 0
     importVisibility: 1

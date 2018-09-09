@@ -1723,8 +1723,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3babfe0af610fa746b4ffcd981e972f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraDistance: 5
-  playerDistance: 2
+  cameraDistance: 45
+  playerDistance: 40.25
   baseSpeed: 3
   jumpSpeed: 10
   vineSpeed: 1
