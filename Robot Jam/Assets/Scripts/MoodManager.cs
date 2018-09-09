@@ -59,7 +59,7 @@ public class MoodManager : MonoBehaviour
     {
         // Test
         Animator anim = gameObject.GetComponent<Animator>();
-        Debug.Log(anim.playbackTime);
+        //Debug.Log(anim.playbackTime);
 
         // Do mood blending
         DoBlendMood();
