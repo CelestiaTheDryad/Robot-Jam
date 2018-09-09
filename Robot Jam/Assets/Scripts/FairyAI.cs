@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FairyAI : MonoBehaviour
 {
-    public GameObject Target;                       // Set this to the player
+    public GameObject Player;                       // Set this to the player
     public float VerticalOffset = 1.0f;             // How far above the player should the fairy float
     public float WaterableVerticalOffset = 0.5f;    // How far above the player should the fairy float
     public float Speed = 1.0f;                      // How fast the fairy is
@@ -18,7 +18,7 @@ public class FairyAI : MonoBehaviour
     public float IdleSideRange = 0.6f;              // How far side to side to bob during idle
     public float IdleSideFreq = 1.0f;               // How often to bob side to side during idle
 
-    public float WateringTime;                      // How long in seconds it takes to water something
+    public float WateringTime = 1.0f;                      // How long in seconds it takes to water something
 
     public float MaxDistance = 0.5f;
     public float WaterMaxDistance = 0.3f;
@@ -26,7 +26,8 @@ public class FairyAI : MonoBehaviour
     private Vector3 Position;
     private Vector3 Velocity;
 
-    private List<Waterable> WaterTargets = new List<Waterable>();
+    /*private*/
+    public List<Waterable> WaterTargets = new List<Waterable>();
     private float StartedWatering;
 
     private Vector3 Ideal;
@@ -69,7 +70,7 @@ public class FairyAI : MonoBehaviour
                     CurrentState = STATES.MOVE_TO_WATER;
                     goto case STATES.MOVE_TO_WATER;
                 }
-                if (Vector3.Distance(Position, GetIdealFollowPosition(Target, VerticalOffset)) < MaxDistance)
+                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, VerticalOffset)) < MaxDistance)
                 {
                     newPosition = IdleRoutine(Position);
                     break;
@@ -78,12 +79,17 @@ public class FairyAI : MonoBehaviour
                 goto case STATES.FOLLOW;
             case STATES.FOLLOW:
                 //Debug.Log("Follow");
-                if (Vector3.Distance(Position, GetIdealFollowPosition(Target, VerticalOffset)) < MaxDistance)
+                if (CanWater())
+                {
+                    CurrentState = STATES.MOVE_TO_WATER;
+                    goto case STATES.MOVE_TO_WATER;
+                }
+                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, VerticalOffset)) < MaxDistance)
                 {
                     CurrentState = STATES.IDLE;
                     goto case STATES.IDLE;
                 }
-                newPosition = MoveToTarget(Target, VerticalOffset);
+                newPosition = MoveToTarget(Player, VerticalOffset);
                 Position = newPosition;
                 break;
             case STATES.MOVE_TO_WATER:
@@ -124,8 +130,8 @@ public class FairyAI : MonoBehaviour
     private void StartWatering()
     {
         Waterable waterable = WaterTargets[0];
-        waterable.Watered = true;
-        CurrentWaterMeter -= MeterNeededToWater;
+        waterable.Water();
+        CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - waterable.WateringCost);
         StartedWatering = Time.fixedTime;
     }
 
@@ -162,12 +168,14 @@ public class FairyAI : MonoBehaviour
         if (WaterTargets.Count > 0)
         {
             Waterable nextWaterable = WaterTargets[0];
-            if (WaterTargets[0].Watered == true)
+            if (nextWaterable.Watered == true || CurrentWaterMeter < MeterNeededToWater)
             {
                 WaterTargets.RemoveAt(0);
+                Debug.Log("1");
                 return CanWater();
             }
-            return CurrentWaterMeter >= nextWaterable.WateringCost;
+            Debug.Log("2");
+            return true;
         }
         return false;
     }

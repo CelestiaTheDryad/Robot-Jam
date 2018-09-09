@@ -7,6 +7,7 @@ public class Waterable : MonoBehaviour
     public static List<Waterable> allWaterables;
     public bool Watered = false;
     public float WateringCost = 1.0f;
+    private Color green = new Color(0, 1, 0);
     [SerializeField] protected Renderer unwateredStateRenderer;
     [SerializeField] protected Renderer wateredStateRenderer;
     [SerializeField] ParticleSystem[] wateredParticles;
@@ -36,13 +37,12 @@ public class Waterable : MonoBehaviour
         }
     }
 
-    public bool Water()
+    public void Water()
     {
         // Play watering animation
         foreach (ParticleSystem i in wateredParticles) 
         {
             i.Play ();
-
             // @TODO: Build delay period for enabling rendering based on particle state
         }
 
@@ -55,7 +55,7 @@ public class Waterable : MonoBehaviour
         // Rendering
         EnableRendering(Watered);
 
-        // Return that this was watered
-        return true;
+        Material m = gameObject.GetComponent<Renderer>().material;
+        m.color = green;
     }
 }
