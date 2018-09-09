@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
     private float timeSinceCentered = 0.0f;
     private float amountToDip = 0.0f;
     private float jumpLimiterRange = 0.31f;
-    private float vineGrabRange = 0.3f;
+    private float vineGrabRange = 0.5f;
 
     //smoothing config values
     private float smoothCameraBaseSpeed = 0.1f;
@@ -30,12 +30,20 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		body = GetComponent<Rigidbody>();
-	}
+    }
 
     void doMovement(float moveValue) {
         Vector3 positionVector = new Vector3(transform.position.x, 0, transform.position.z);
-        float playerAngle = Vector3.Angle(new Vector3(1, 0, 0), positionVector);
-        Vector3 movementVector = new Vector3(baseSpeed * Mathf.Sin(playerAngle * Mathf.Deg2Rad), 0, baseSpeed * Mathf.Cos(playerAngle * Mathf.Deg2Rad)) * moveValue;
+        //use geometry to get angle
+        float playerAngle = Mathf.Acos(positionVector.normalized.z);
+
+        //adjust for the half of the circle missed by arccos
+        if(transform.position.x > 0) {
+            playerAngle = 2 * Mathf.PI - playerAngle;
+        }
+
+        Vector3 movementVector = new Vector3(-Mathf.Cos(playerAngle), 0, -Mathf.Sin(playerAngle)) * moveValue * baseSpeed;
+        Debug.Log(movementVector);
         //keep falling velocity intact
         movementVector.y = body.velocity.y;
 
@@ -108,7 +116,7 @@ public class PlayerController : MonoBehaviour {
 
         //move camera
         Vector3 cameraPosition = rawPosition.normalized * cameraDistance;
-        cameraPosition.y = transform.position.y;
+        cameraPosition.y = transform.position.y + 0.5f;
         if (cameraSmoothing) {
 
             //artificially move camera further down to have a dip when the player lands
