@@ -218,7 +218,6 @@ public class FairyAI : MonoBehaviour
     private MoveState GetMoveState()
     {
         float waterPercentage = CurrentWaterMeter / MaxWaterMeter;
-        Debug.Log(waterPercentage);
         if (waterPercentage >= HealthyState.WaterPctNeeded)
         {
             return HealthyState;
