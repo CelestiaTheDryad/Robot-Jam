@@ -42,32 +42,28 @@ public class MoodManager : MonoBehaviour
     [SerializeField] protected AudioSource ambience7;
     //[SerializeField] protected MoodState[] moodStates;
     [SerializeField] protected float goalMood = 0.4f;
-    [SerializeField] protected float actualMood = 0.4f;
+    protected float actualMood = 0.4f;
     [SerializeField] protected float blendMoodSpeed = 0.1f; // per second
-    
+    //[SerializeField] protected Animation theAnimation;
+    [SerializeField] protected Animator theAnimator;
 
     // Use this for initialization
     void Start()
     {
-        // Test
-        Animator anim = gameObject.GetComponent<Animator>();
-        anim.StartPlayback();
+        theAnimator = (theAnimator ? theAnimator : gameObject.GetComponent<Animator>());
+        SetMood(goalMood);
+        actualMood = goalMood;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Test
-        Animator anim = gameObject.GetComponent<Animator>();
-        //Debug.Log(anim.playbackTime);
-
         // Do mood blending
         DoBlendMood();
 
         aboveLight.color = aboveLightColor;
         belowLight.color = belowLightColor;
         RenderSettings.ambientLight = skyLightColor;
-
         ambience0.volume = windbadVolume;
         ambience1.volume = sitarVolume;
         ambience2.volume = brookVolume;
@@ -81,12 +77,14 @@ public class MoodManager : MonoBehaviour
     // Set the mood to a specific number
     public void SetMood (float _mood)
     {
-        goalMood = Mathf.Clamp (_mood, 0f, 1.0f);
+        goalMood = Mathf.Clamp (_mood, 0.001f, 0.99f);
     }
 
     protected void DoBlendMood ()
     {
         actualMood += (goalMood - actualMood) * blendMoodSpeed;
+        theAnimator.PlayInFixedTime("Mood Animation", 0, actualMood);
+        theAnimator.StopPlayback();
     }
 
     // Various init classes

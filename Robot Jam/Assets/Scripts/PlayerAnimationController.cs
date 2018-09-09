@@ -16,17 +16,27 @@ public class PlayerAnimationController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(TimedEventManager.GetInstance());
 	}
+
+
+    public void InformVelocity (Vector3 velocity) {
+        theAnimator.SetFloat("yVelocity", velocity.y);
+    }
+
+    public void SetRunState (bool running) {
+        theAnimator.SetBool("isRunning", running);
+    }
 
     public void SetAction(ePlayerAction _action) {
         if (_action != currentAction) {
             switch (_action) {
                 case ePlayerAction.Stand:
+                    break;
                     theAnimator.SetTrigger("doStand");
                     break;
-                case ePlayerAction.Run:
-                    theAnimator.SetTrigger("startRunning");
+                case ePlayerAction.JumpUp:
+                    theAnimator.SetTrigger("StartJump");
+                    Debug.Log("Start Jump!");
                     break;
                 default:
                     break;

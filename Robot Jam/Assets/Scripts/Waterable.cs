@@ -11,8 +11,8 @@ public class Waterable : MonoBehaviour
     [SerializeField] float timeBeforeAnimationStarts = 1f;
     [SerializeField] float timeBeforeSwappingMeshes = 1f;
     public float VerticalOffset = 0.5f;
-    [SerializeField] protected Renderer unwateredStateRenderer;
-    [SerializeField] protected Renderer wateredStateRenderer;
+    [SerializeField] protected GameObject unwateredObject;
+    [SerializeField] protected GameObject wateredObject;
     [SerializeField] ParticleSystem[] wateredParticles;
 
     // Use this for initialization
@@ -32,11 +32,11 @@ public class Waterable : MonoBehaviour
     }
 
     void EnableRendering (bool _watered) {
-        if (unwateredStateRenderer != null) {
-            unwateredStateRenderer.enabled = !_watered;
+        if (unwateredObject != null) {
+            unwateredObject.SetActive(!_watered);
         }
-        if (wateredStateRenderer != null) {
-            wateredStateRenderer.enabled = _watered;
+        if (wateredObject != null) {
+            wateredObject.SetActive(_watered);
         }
     }
 
