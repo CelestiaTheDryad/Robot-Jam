@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour {
         }
 
         Vector3 movementVector = new Vector3(-Mathf.Cos(playerAngle), 0, -Mathf.Sin(playerAngle)) * moveValue * baseSpeed;
-        Debug.Log(movementVector);
         //keep falling velocity intact
         movementVector.y = body.velocity.y;
 

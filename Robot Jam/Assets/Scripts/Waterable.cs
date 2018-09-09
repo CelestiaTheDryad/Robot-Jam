@@ -20,8 +20,12 @@ public class Waterable : MonoBehaviour
 
     }
 
+    private Color green = new Color(0, 1, 0);
+
     public void Water()
     {
         Watered = true;
+        Material m = gameObject.GetComponent<Renderer>().material;
+        m.color = green;
     }
 }
