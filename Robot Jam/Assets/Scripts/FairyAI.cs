@@ -63,7 +63,13 @@ public class FairyAI : MonoBehaviour
         dt = Time.deltaTime;
         t += dt;
 
-        CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - (PlayerBody.velocity.magnitude * WaterDrainRate));
+
+        Vector3 playerVel = PlayerBody.velocity;
+        if (playerVel.y < 0)
+        {
+            playerVel = new Vector3(playerVel.x, 0, playerVel.z);
+        }
+        CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - (playerVel.magnitude * WaterDrainRate));
 
         Position = gameObject.transform.position;
         Vector3 newPosition;
