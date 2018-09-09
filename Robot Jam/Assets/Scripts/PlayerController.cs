@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpSpeed;
     public float vineSpeed;
     public GameObject mainCamera;
+    public Transform playerMesh;
     public bool cameraSmoothing;
     
     private Rigidbody body;
@@ -47,12 +48,17 @@ public class PlayerController : MonoBehaviour {
         }
 
         Vector3 movementVector = new Vector3(-Mathf.Cos(playerAngle), 0, -Mathf.Sin(playerAngle)) * moveValue * baseSpeed;
+
+        //if player is moving change facing
+        //use player mesh facing instead of matser player facing
+        //to keep camera from swinging around
+        playerMesh.LookAt(playerMesh.position + movementVector);
+
         //keep falling velocity intact
         movementVector.y = body.velocity.y;
 
         //store downward velocity for camera dip
         if(body.velocity.y < -cameraDipThreshold) {
-            //Debug.Log(body.velocity.y);
             amountToDip = Mathf.Max(body.velocity.y * cameraDipMultiplier, -cameraDipMaximum);
         }
 
@@ -73,6 +79,11 @@ public class PlayerController : MonoBehaviour {
         if (Physics.Raycast(transform.position, new Vector3(-transform.position.x, 0, -transform.position.z), vineGrabRange, 1 << 9)) {
             //turn gravity off to not fall
             body.useGravity = false;
+
+            //face player towards wall if they're not on ground
+            if(!Physics.Raycast(transform.position, new Vector3(0, -1, 0), jumpLimiterRange)) {
+                playerMesh.LookAt(new Vector3(0, playerMesh.position.y, 0));
+            }
 
             //player holding jump
             if (jumpValue > 0.5) {
