@@ -41,18 +41,26 @@ public class MoodManager : MonoBehaviour
     [SerializeField] protected AudioSource ambience6;
     [SerializeField] protected AudioSource ambience7;
     //[SerializeField] protected MoodState[] moodStates;
-    [SerializeField] protected float goalMood;
-    [SerializeField] protected float actualMood;
-    [SerializeField] protected float blendMoodSpeed;
+    [SerializeField] protected float goalMood = 0.4f;
+    [SerializeField] protected float actualMood = 0.4f;
+    [SerializeField] protected float blendMoodSpeed = 0.1f; // per second
+    
 
     // Use this for initialization
     void Start()
     {
+        // Test
+        Animator anim = gameObject.GetComponent<Animator>();
+        anim.StartPlayback();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Test
+        Animator anim = gameObject.GetComponent<Animator>();
+        Debug.Log(anim.playbackTime);
+
         // Do mood blending
         DoBlendMood();
 
@@ -70,6 +78,7 @@ public class MoodManager : MonoBehaviour
         ambience7.volume = chimesVolume;
     }
 
+    // Set the mood to a specific number
     public void SetMood (float _mood)
     {
         goalMood = Mathf.Clamp (_mood, 0f, 1.0f);
@@ -77,7 +86,7 @@ public class MoodManager : MonoBehaviour
 
     protected void DoBlendMood ()
     {
-
+        actualMood += (goalMood - actualMood) * blendMoodSpeed;
     }
 
     // Various init classes
