@@ -21,10 +21,10 @@ public class FairyNotifier : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "WaterCollider")
+        Waterable waterable = other.gameObject.GetComponent(typeof(Waterable)) as Waterable;
+        if (waterable != null)
         {
-            WaterReference wr = other.GetComponent(typeof(WaterReference)) as WaterReference;
-            fairyAI.AddWater(wr.water);
+            fairyAI.FoundWaterTarget(waterable);
         }
     }
 }
