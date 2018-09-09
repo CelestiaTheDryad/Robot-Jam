@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     public float playerDistance;
     public float baseSpeed;
     public float jumpSpeed;
-    public float jumpLimiterRange;
+    public float vineSpeed;
     public GameObject mainCamera;
     public bool cameraSmoothing;
     
@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
     private bool hasJumped = false;
     private float timeSinceCentered = 0.0f;
     private float amountToDip = 0.0f;
+    private float jumpLimiterRange = 0.31f;
+    private float vineGrabRange = 0.3f;
 
     //smoothing config values
     private float smoothCameraBaseSpeed = 0.1f;
@@ -47,12 +49,41 @@ public class PlayerController : MonoBehaviour {
     }
 
     void doJump(float jumpValue) {
-        //check for player able to jump here
+        //if player is on vine
+        if (Physics.Raycast(transform.position, new Vector3(-transform.position.x, 0, -transform.position.z), vineGrabRange, 1 << 9)) {
+            //turn gravity off to not fall
+            body.useGravity = false;
 
+            //player holding jump
+            if (jumpValue > 0.5) {
+                body.velocity = new Vector3(body.velocity.x, vineSpeed, body.velocity.z);
+                hasJumped = true;
+            }
+            //if player is holding down
+            else if (jumpValue < -0.5) {
+                body.velocity = new Vector3(body.velocity.x, -vineSpeed, body.velocity.z);
+            }
+            //stay still on vine with no button press
+            else {
+                body.velocity = new Vector3(body.velocity.x, 0, body.velocity.z);
+            }
+
+            //don't jump on vines
+            return;
+        }
+        else {
+            //turn gravity back on
+            body.useGravity = true;
+        }
+        
+        
+        //if player is holding jump key
         if (jumpValue > 0.5) {
+            //if player is on a jumpable surface
             if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), jumpLimiterRange) && !hasJumped) {
                 //change vertical velocity to jump velocity
                 body.velocity = new Vector3(body.velocity.x, jumpSpeed, body.velocity.z);
+
                 hasJumped = true;
             }
         }
