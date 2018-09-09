@@ -16,7 +16,6 @@ public class PlayerAnimationController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(TimedEventManager.GetInstance());
 	}
 
     public void SetAction(ePlayerAction _action) {
