@@ -8,33 +8,90 @@ public class PlayerController : MonoBehaviour {
     public float playerDistance;
     public float baseSpeed;
     public float jumpSpeed;
-    public float jumpLimiterRange;
+    public float vineSpeed;
     public GameObject mainCamera;
+    public bool cameraSmoothing;
     
     private Rigidbody body;
     private bool hasJumped = false;
+    private float timeSinceCentered = 0.0f;
+    private float amountToDip = 0.0f;
+    private float jumpLimiterRange = 0.31f;
+    private float vineGrabRange = 0.5f;
+
+    //smoothing config values
+    private float smoothCameraBaseSpeed = 0.1f;
+    private float smoothCameraMaxSpeed = 0.85f;
+    private float cameraDipDampening = 0.9f;
+    private float cameraDipThreshold = 1.0f;
+    private float cameraDipMultiplier = 0.125f;
+    private float cameraDipMaximum = 2.0f;
 
     // Use this for initialization
     void Start () {
 		body = GetComponent<Rigidbody>();
-	}
+    }
 
     void doMovement(float moveValue) {
         Vector3 positionVector = new Vector3(transform.position.x, 0, transform.position.z);
-        float playerAngle = Vector3.Angle(new Vector3(1, 0, 0), positionVector);
-        Vector3 movementVector = new Vector3(baseSpeed * Mathf.Sin(playerAngle * Mathf.Deg2Rad), 0, baseSpeed * Mathf.Cos(playerAngle * Mathf.Deg2Rad)) * moveValue;
+        //use geometry to get angle
+        float playerAngle = Mathf.Acos(positionVector.normalized.z);
+
+        //adjust for the half of the circle missed by arccos
+        if(transform.position.x > 0) {
+            playerAngle = 2 * Mathf.PI - playerAngle;
+        }
+
+        Vector3 movementVector = new Vector3(-Mathf.Cos(playerAngle), 0, -Mathf.Sin(playerAngle)) * moveValue * baseSpeed;
+        Debug.Log(movementVector);
         //keep falling velocity intact
         movementVector.y = body.velocity.y;
+
+        //store downward velocity for camera dip
+        if(body.velocity.y < -cameraDipThreshold) {
+            //Debug.Log(body.velocity.y);
+            amountToDip = Mathf.Max(body.velocity.y * cameraDipMultiplier, -cameraDipMaximum);
+        }
+
         body.velocity = movementVector;
     }
 
     void doJump(float jumpValue) {
-        //check for player able to jump here
+        //if player is on vine
+        if (Physics.Raycast(transform.position, new Vector3(-transform.position.x, 0, -transform.position.z), vineGrabRange, 1 << 9)) {
+            //turn gravity off to not fall
+            body.useGravity = false;
 
+            //player holding jump
+            if (jumpValue > 0.5) {
+                body.velocity = new Vector3(body.velocity.x, vineSpeed, body.velocity.z);
+                hasJumped = true;
+            }
+            //if player is holding down
+            else if (jumpValue < -0.5) {
+                body.velocity = new Vector3(body.velocity.x, -vineSpeed, body.velocity.z);
+            }
+            //stay still on vine with no button press
+            else {
+                body.velocity = new Vector3(body.velocity.x, 0, body.velocity.z);
+            }
+
+            //don't jump on vines
+            return;
+        }
+        else {
+            //turn gravity back on
+            body.useGravity = true;
+        }
+        
+        
+        //if player is holding jump key
         if (jumpValue > 0.5) {
+            //if player is on a jumpable surface
             if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), jumpLimiterRange) && !hasJumped) {
                 //change vertical velocity to jump velocity
                 body.velocity = new Vector3(body.velocity.x, jumpSpeed, body.velocity.z);
+
                 hasJumped = true;
             }
         }
@@ -45,7 +102,7 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float movement = Input.GetAxisRaw("Horizontal");
+        float movement = Input.GetAxis("Horizontal");
         doMovement(movement);
         float jumpValue = Input.GetAxisRaw("Jump");
         doJump(jumpValue);
@@ -59,8 +116,36 @@ public class PlayerController : MonoBehaviour {
 
         //move camera
         Vector3 cameraPosition = rawPosition.normalized * cameraDistance;
-        cameraPosition.y = transform.position.y;
-        mainCamera.transform.position = cameraPosition;
-        mainCamera.transform.LookAt(this.transform);
+        cameraPosition.y = transform.position.y + 0.5f;
+        if (cameraSmoothing) {
+
+            //artificially move camera further down to have a dip when the player lands
+            if(Mathf.Abs(body.velocity.y) < cameraDipThreshold) {
+                cameraPosition.y += amountToDip;
+                amountToDip *= cameraDipDampening;
+            }
+            else if(body.velocity.y > cameraDipThreshold) {
+                amountToDip = 0.0f;
+            }
+            float distToMove = (cameraPosition - mainCamera.transform.position).magnitude;
+
+            if(distToMove > 1) {
+                timeSinceCentered += Time.deltaTime;
+            }
+            else {
+                timeSinceCentered = 0;
+            }
+
+            float movementPower = smoothCameraBaseSpeed + Mathf.Clamp(timeSinceCentered, 0, smoothCameraMaxSpeed - smoothCameraBaseSpeed);
+
+            Vector3 newPos = (cameraPosition - mainCamera.transform.position) * movementPower + mainCamera.transform.position;
+
+            mainCamera.transform.position = newPos;
+            mainCamera.transform.LookAt(this.transform);
+        }
+        else {
+            mainCamera.transform.position = cameraPosition;
+            mainCamera.transform.LookAt(this.transform);
+        }
     }
 }
