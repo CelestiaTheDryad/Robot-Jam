@@ -1,0 +1,345 @@
+fileFormatVersion: 2
+guid: 21d7777ad5051f94fa8ad3dfc8a856c0
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: mouse_bandanna
+    100004: mouse_body
+    100006: mouse_gourd
+    100008: mouse_Head_JawEndSHJnt
+    100010: mouse_Head_JawSHJnt
+    100012: mouse_Head_TopSHJnt
+    100014: mouse_l_Arm_ClavicleSHJnt
+    100016: mouse_l_Arm_ElbowSHJnt
+    100018: mouse_l_Arm_ShoulderSHJnt
+    100020: mouse_l_Arm_WristSHJnt
+    100022: mouse_l_Ear_01_01SHJnt
+    100024: mouse_l_Ear_01_02SHJnt
+    100026: mouse_l_Eye_01SHJnt
+    100028: mouse_l_Finger_01_01SHJnt
+    100030: mouse_l_Finger_01_02SHJnt
+    100032: mouse_l_Leg_AnkleSHJnt
+    100034: mouse_l_Leg_BallSHJnt
+    100036: mouse_l_Leg_HipSHJnt
+    100038: mouse_l_Leg_Knee1SHJnt
+    100040: mouse_l_Leg_Knee2SHJnt
+    100042: mouse_l_Leg_ToeSHJnt
+    100044: mouse_l_Thumb_01_01SHJnt
+    100046: mouse_l_Thumb_01_02SHJnt
+    100048: mouse_Neck_01SHJnt
+    100050: mouse_Neck_TopSHJnt
+    100052: mouse_r_Arm_ClavicleSHJnt
+    100054: mouse_r_Arm_ElbowSHJnt
+    100056: mouse_r_Arm_ShoulderSHJnt
+    100058: mouse_r_Arm_WristSHJnt
+    100060: mouse_r_Ear_01_01SHJnt
+    100062: mouse_r_Ear_01_02SHJnt
+    100064: mouse_r_Eye_01SHJnt
+    100066: mouse_r_Finger_01_01SHJnt
+    100068: mouse_r_Finger_01_02SHJnt
+    100070: mouse_r_Leg_AnkleSHJnt
+    100072: mouse_r_Leg_BallSHJnt
+    100074: mouse_r_Leg_HipSHJnt
+    100076: mouse_r_Leg_Knee1SHJnt
+    100078: mouse_r_Leg_Knee2SHJnt
+    100080: mouse_r_Leg_ToeSHJnt
+    100082: mouse_r_Thumb_01_01SHJnt
+    100084: mouse_r_Thumb_01_02SHJnt
+    100086: mouse_ROOTSHJnt
+    100088: mouse_SHJntGrp
+    100090: mouse_Spine_01SHJnt
+    100092: mouse_Spine_TopSHJnt
+    100094: mouse_straps
+    100096: mouse_Tail_01_01SHJnt
+    100098: mouse_Tail_01_02SHJnt
+    100100: mouse_Tail_01_03SHJnt
+    400000: //RootNode
+    400002: mouse_bandanna
+    400004: mouse_body
+    400006: mouse_gourd
+    400008: mouse_Head_JawEndSHJnt
+    400010: mouse_Head_JawSHJnt
+    400012: mouse_Head_TopSHJnt
+    400014: mouse_l_Arm_ClavicleSHJnt
+    400016: mouse_l_Arm_ElbowSHJnt
+    400018: mouse_l_Arm_ShoulderSHJnt
+    400020: mouse_l_Arm_WristSHJnt
+    400022: mouse_l_Ear_01_01SHJnt
+    400024: mouse_l_Ear_01_02SHJnt
+    400026: mouse_l_Eye_01SHJnt
+    400028: mouse_l_Finger_01_01SHJnt
+    400030: mouse_l_Finger_01_02SHJnt
+    400032: mouse_l_Leg_AnkleSHJnt
+    400034: mouse_l_Leg_BallSHJnt
+    400036: mouse_l_Leg_HipSHJnt
+    400038: mouse_l_Leg_Knee1SHJnt
+    400040: mouse_l_Leg_Knee2SHJnt
+    400042: mouse_l_Leg_ToeSHJnt
+    400044: mouse_l_Thumb_01_01SHJnt
+    400046: mouse_l_Thumb_01_02SHJnt
+    400048: mouse_Neck_01SHJnt
+    400050: mouse_Neck_TopSHJnt
+    400052: mouse_r_Arm_ClavicleSHJnt
+    400054: mouse_r_Arm_ElbowSHJnt
+    400056: mouse_r_Arm_ShoulderSHJnt
+    400058: mouse_r_Arm_WristSHJnt
+    400060: mouse_r_Ear_01_01SHJnt
+    400062: mouse_r_Ear_01_02SHJnt
+    400064: mouse_r_Eye_01SHJnt
+    400066: mouse_r_Finger_01_01SHJnt
+    400068: mouse_r_Finger_01_02SHJnt
+    400070: mouse_r_Leg_AnkleSHJnt
+    400072: mouse_r_Leg_BallSHJnt
+    400074: mouse_r_Leg_HipSHJnt
+    400076: mouse_r_Leg_Knee1SHJnt
+    400078: mouse_r_Leg_Knee2SHJnt
+    400080: mouse_r_Leg_ToeSHJnt
+    400082: mouse_r_Thumb_01_01SHJnt
+    400084: mouse_r_Thumb_01_02SHJnt
+    400086: mouse_ROOTSHJnt
+    400088: mouse_SHJntGrp
+    400090: mouse_Spine_01SHJnt
+    400092: mouse_Spine_TopSHJnt
+    400094: mouse_straps
+    400096: mouse_Tail_01_01SHJnt
+    400098: mouse_Tail_01_02SHJnt
+    400100: mouse_Tail_01_03SHJnt
+    2100000: lambert1
+    4300000: mouse_body
+    4300002: mouse_bandanna
+    4300004: mouse_gourd
+    4300006: mouse_straps
+    7400000: Jump-Start
+    7400002: Jump-Idle
+    7400004: Fall-Start
+    7400006: Land
+    7400008: Fall-Loop
+    9500000: //RootNode
+    13700000: mouse_bandanna
+    13700002: mouse_body
+    13700004: mouse_gourd
+    13700006: mouse_straps
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Jump-Start
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 42
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Jump-Idle
+      takeName: Take 001
+      firstFrame: 42
+      lastFrame: 42
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fall-Start
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 73
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Land
+      takeName: Take 001
+      firstFrame: 74
+      lastFrame: 95
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fall-Loop
+      takeName: Take 001
+      firstFrame: 73
+      lastFrame: 74
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 2
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 2
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
