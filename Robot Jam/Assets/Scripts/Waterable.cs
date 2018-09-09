@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterReference : MonoBehaviour
+public class Waterable : MonoBehaviour
 {
-    public GameObject water;
+
+    public bool Watered = false;
+    public float WateringCost = 1.0f;
 
     // Use this for initialization
     void Start()
@@ -16,5 +18,10 @@ public class WaterReference : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void Water()
+    {
+        Watered = true;
     }
 }
