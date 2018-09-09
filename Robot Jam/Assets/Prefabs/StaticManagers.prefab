@@ -507,7 +507,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 0337ec967c331904891da8c49a9e9b94, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 0.79
+  m_Pitch: 1.4
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -1284,9 +1284,9 @@ MonoBehaviour:
   ambience5: {fileID: 82241280171774894}
   ambience6: {fileID: 82432165828141524}
   ambience7: {fileID: 82051713354509878}
-  goalMood: 0
-  actualMood: 0
-  blendMoodSpeed: 0
+  goalMood: 0.6
+  blendMoodSpeed: 0.01
+  theAnimator: {fileID: 0}
 --- !u!114 &114950880596249654
 MonoBehaviour:
   m_ObjectHideFlags: 1
