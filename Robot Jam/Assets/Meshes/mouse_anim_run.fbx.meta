@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f65518dd4199f3044b0dcbd37b8b78d5
+guid: 25fec89065ab92241bd037668d6c7291
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -106,19 +106,16 @@ ModelImporter:
     400098: mouse_Tail_01_02SHJnt
     400100: mouse_Tail_01_03SHJnt
     2100000: lambert1
-    2300000: mouse_gourd
-    3300000: mouse_gourd
     4300000: mouse_body
     4300002: mouse_bandanna
     4300004: mouse_gourd
     4300006: mouse_straps
-    7400000: stand
-    7400002: spaz
-    7400004: run
+    7400000: Mouse Run
     9500000: //RootNode
     13700000: mouse_bandanna
     13700002: mouse_body
-    13700004: mouse_straps
+    13700004: mouse_gourd
+    13700006: mouse_straps
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -153,38 +150,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: stand
-      takeName: Take 001
-      firstFrame: 0
-      lastFrame: 1
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: spaz
+      name: Mouse Run
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 20
+      lastFrame: 45
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -192,34 +161,6 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: run
-      takeName: Take 001
-      firstFrame: 0
-      lastFrame: 20
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
