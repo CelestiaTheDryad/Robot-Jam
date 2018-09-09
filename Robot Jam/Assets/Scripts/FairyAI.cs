@@ -22,8 +22,6 @@ public class FairyAI : MonoBehaviour
     public float MaxDistance = 0.5f;                // How far the player has to be to transfer fairy from idle to follow
     public float WaterMaxDistance = 0.3f;           // How far the fairy has to be from a waterable to start watering it.
 
-    public Slider waterBar;
-
     private Vector3 Position;
     private Vector3 Velocity;
 
@@ -56,7 +54,6 @@ public class FairyAI : MonoBehaviour
         CurrentState = STATES.FOLLOW;
         Position = gameObject.transform.position;
         PlayerBody = Player.GetComponent<Rigidbody>();
-        waterBar.value = CurrentWaterMeter;
     }
 
     // Update is called once per frame
@@ -148,7 +145,6 @@ public class FairyAI : MonoBehaviour
         Waterable waterable = WaterTargets[0];
         waterable.Water();
         CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - waterable.WateringCost);
-        waterBar.value = CurrentWaterMeter;
         WateringFinished = Time.fixedTime + waterable.WateringTimeNecessary;
     }
 
@@ -201,7 +197,6 @@ public class FairyAI : MonoBehaviour
     public void GiveWater(float waterAmount)
     {
         CurrentWaterMeter = Mathf.Min(MaxWaterMeter, CurrentWaterMeter + waterAmount);
-        waterBar.value = CurrentWaterMeter;
     }
 
     /**
