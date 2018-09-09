@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 7f4c454b7dde0fd42bc5ef38ea66601f
+guid: 016e850927c6d704f883825c07b7512c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Line001
-    400000: //RootNode
-    400002: Line001
-    2100000: Line001Mat
-    2300000: Line001
-    3300000: Line001
-    4300000: Line001
+    100000: foliage_plant_dead
+    100002: //RootNode
+    400000: foliage_plant_dead
+    400002: //RootNode
+    2100000: foliage_plant_deadMat
+    2300000: foliage_plant_dead
+    3300000: foliage_plant_dead
+    4300000: foliage_plant_dead
   externalObjects: {}
   materials:
     importMaterials: 1
