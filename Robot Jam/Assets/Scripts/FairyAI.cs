@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FairyAI : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class FairyAI : MonoBehaviour
 
     public float MaxDistance = 0.5f;
     public float WaterMaxDistance = 0.3f;
+
+    public Slider waterBar;
 
     private Vector3 Position;
     private Vector3 Velocity;
@@ -52,6 +55,7 @@ public class FairyAI : MonoBehaviour
     {
         CurrentState = STATES.FOLLOW;
         Position = gameObject.transform.position;
+        waterBar.value = CurrentWaterMeter;
     }
 
     // Update is called once per frame
@@ -132,6 +136,7 @@ public class FairyAI : MonoBehaviour
         Waterable waterable = WaterTargets[0];
         waterable.Water();
         CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - waterable.WateringCost);
+        waterBar.value = CurrentWaterMeter;
         StartedWatering = Time.fixedTime;
     }
 
@@ -182,7 +187,8 @@ public class FairyAI : MonoBehaviour
 
     public void GiveWater(float waterAmount)
     {
-        CurrentWaterMeter = Mathf.Max(MaxWaterMeter, CurrentWaterMeter + waterAmount);
+        CurrentWaterMeter = Mathf.Min(MaxWaterMeter, CurrentWaterMeter + waterAmount);
+        waterBar.value = CurrentWaterMeter;
     }
 
     /**
