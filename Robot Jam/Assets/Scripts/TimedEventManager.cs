@@ -5,18 +5,20 @@ using UnityEngine;
 
 public class TimedEventManager : MonoBehaviour {
     protected static TimedEventManager __instance;
-    protected Dictionary<float, Action> __timedfunctions;
+    protected List<TimedEvent> __timedEvents;
 
     protected void Start() {
         __instance = this;
+        __timedEvents = new List<TimedEvent>();
     }
 
     // Update is called once per frame
     void Update () {
-        foreach (KeyValuePair<float, Action> i in __timedfunctions) {
-            if (Time.time >= i.Key) {
-                i.Value();
-                // @TODO: Broken, need to fix
+        int count = __timedEvents.Count;
+        for (int i = count - 1; i >= 0; i--) {
+            if (__timedEvents[i].time <= Time.time) {
+                __timedEvents[i].action();
+                __timedEvents.RemoveAt(i);
             }
         }
 	}
@@ -30,6 +32,15 @@ public class TimedEventManager : MonoBehaviour {
 
     // Adds a timed event set to go off in _inSeconds seconds
     public void AddTimedEvent (float _inSeconds, Action _event) {
-        // @TODO: dictionary won't work lol
+        __timedEvents.Add(new TimedEvent(Time.time + _inSeconds, _event));
+    }
+
+    protected class TimedEvent {
+        public float time;
+        public Action action;
+        public TimedEvent (float _time, Action _action) {
+            time = _time;
+            action = _action;
+        }
     }
 }

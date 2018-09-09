@@ -7,7 +7,9 @@ public class Waterable : MonoBehaviour
     public static List<Waterable> allWaterables;
     public bool Watered = false;
     public float WateringCost = 1.0f;
-    private Color green = new Color(0, 1, 0);
+    public float WateringTimeNecessary = 2f;    // The amount of time the fairy has to "work it" before the tree responds
+    [SerializeField] float timeBeforeAnimationStarts = 1f;
+    [SerializeField] float timeBeforeSwappingMeshes = 1f;
     [SerializeField] protected Renderer unwateredStateRenderer;
     [SerializeField] protected Renderer wateredStateRenderer;
     [SerializeField] ParticleSystem[] wateredParticles;
@@ -20,6 +22,10 @@ public class Waterable : MonoBehaviour
         }
         allWaterables.Add(this);
         EnableRendering (Watered);
+
+        TimedEventManager.GetInstance().AddTimedEvent(5f, () => {
+            this.Water();
+        });
     }
 
     // Update is called once per frame
@@ -39,23 +45,23 @@ public class Waterable : MonoBehaviour
 
     public void Water()
     {
-        // Play watering animation
-        foreach (ParticleSystem i in wateredParticles) 
-        {
-            i.Play ();
-            // @TODO: Build delay period for enabling rendering based on particle state
-        }
-
-        // Play sound
-        //AudioManager.PlaySound("Water");
-
         // Set state to true
         Watered = true;
 
-        // Rendering
-        EnableRendering(Watered);
+        // Wait a certain amount of time before playing the animations
+        TimedEventManager.GetInstance().AddTimedEvent(timeBeforeAnimationStarts, () => {
+            // Play watering animation
+            foreach (ParticleSystem i in wateredParticles) {
+                i.Play();
+            }
 
-        Material m = gameObject.GetComponent<Renderer>().material;
-        m.color = green;
+            // Delay a certain amount of time before swapping meshes
+            TimedEventManager.GetInstance().AddTimedEvent(timeBeforeAnimationStarts, () => {
+                EnableRendering(Watered);
+            });
+
+            // Play sound
+            //AudioManager.PlaySound("Water");
+        });
     }
 }
