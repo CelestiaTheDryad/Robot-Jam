@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraDistance: 9
   playerDistance: 5.25
-  baseSpeed: 1
+  baseSpeed: 2.4
   jumpSpeed: 4
   jumpLimiterRange: 0.31
   mainCamera: {fileID: 282840810}

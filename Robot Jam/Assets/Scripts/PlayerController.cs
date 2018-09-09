@@ -62,5 +62,8 @@ public class PlayerController : MonoBehaviour {
         cameraPosition.y = transform.position.y;
         mainCamera.transform.position = cameraPosition;
         mainCamera.transform.LookAt(this.transform);
+
+        
+        
     }
 }
