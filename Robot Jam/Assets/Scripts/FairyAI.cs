@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FairyAI : MonoBehaviour
 {
@@ -18,10 +19,10 @@ public class FairyAI : MonoBehaviour
     public float IdleSideRange = 0.6f;              // How far side to side to bob during idle
     public float IdleSideFreq = 1.0f;               // How often to bob side to side during idle
 
-    public float WateringTime = 1.0f;               // How long in seconds it takes to water something
-
     public float MaxDistance = 0.5f;                // How far the player has to be to transfer fairy from idle to follow
     public float WaterMaxDistance = 0.3f;           // How far the fairy has to be from a waterable to start watering it.
+
+    public Slider waterBar;
 
     private Vector3 Position;
     private Vector3 Velocity;
@@ -30,7 +31,7 @@ public class FairyAI : MonoBehaviour
 
     /*private*/
     public List<Waterable> WaterTargets = new List<Waterable>();
-    private float StartedWatering;
+    private float WateringFinished;
 
     private Vector3 Ideal;
 
@@ -55,6 +56,7 @@ public class FairyAI : MonoBehaviour
         CurrentState = STATES.FOLLOW;
         Position = gameObject.transform.position;
         PlayerBody = Player.GetComponent<Rigidbody>();
+        waterBar.value = CurrentWaterMeter;
     }
 
     // Update is called once per frame
@@ -119,7 +121,7 @@ public class FairyAI : MonoBehaviour
                 break;
             case STATES.WATER:
                 //Debug.Log("Watering");
-                if (Time.fixedTime - StartedWatering > WateringTime)
+                if (Time.fixedTime >= WateringFinished)
                 {
                     if (CanWater())
                     {
@@ -135,8 +137,8 @@ public class FairyAI : MonoBehaviour
                 newPosition = Position; // Funky watering movement
                 break;
             default:
-                Debug.Log("Woops");
-                newPosition = Position;
+                //Debug.Log("Woops");
+                newPosition = Player.transform.position;
                 break;
         }
         this.gameObject.transform.position = newPosition;
@@ -146,7 +148,8 @@ public class FairyAI : MonoBehaviour
         Waterable waterable = WaterTargets[0];
         waterable.Water();
         CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - waterable.WateringCost);
-        StartedWatering = Time.fixedTime;
+        waterBar.value = CurrentWaterMeter;
+        WateringFinished = Time.fixedTime + waterable.WateringTimeNecessary;
     }
 
     private Vector3 MoveToTarget(GameObject target, float verticalOffset)
@@ -170,7 +173,7 @@ public class FairyAI : MonoBehaviour
 
         Vector3 newPoint = new Vector3(ideal.x, newY, ideal.z);
 
-        Vector3 normal = Vector3.Cross(Camera.main.transform.position, new Vector3(0, 1, 0)).normalized;
+        Vector3 normal = Vector3.Cross(Camera.main.transform.position - ideal, new Vector3(0, 1, 0)).normalized;
         newPoint += normal * Mathf.Sin(t * IdleSideFreq) * IdleSideRange;
 
         Vector3 direction = newPoint - currentPosition;
@@ -197,7 +200,8 @@ public class FairyAI : MonoBehaviour
      **/
     public void GiveWater(float waterAmount)
     {
-        CurrentWaterMeter = Mathf.Max(MaxWaterMeter, CurrentWaterMeter + waterAmount);
+        CurrentWaterMeter = Mathf.Min(MaxWaterMeter, CurrentWaterMeter + waterAmount);
+        waterBar.value = CurrentWaterMeter;
     }
 
     /**

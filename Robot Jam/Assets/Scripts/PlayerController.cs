@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
     public bool cameraSmoothing;
     
     private Rigidbody body;
+    [SerializeField] protected PlayerAnimationController playerAnimationController;
     private bool hasJumped = false;
     private float timeSinceCentered = 0.0f;
     private float amountToDip = 0.0f;
@@ -30,6 +31,9 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		body = GetComponent<Rigidbody>();
+        if (playerAnimationController == null) {
+            Debug.LogError("No playerAnimationController attached!");
+        }
     }
 
     void doMovement(float moveValue) {
@@ -53,6 +57,15 @@ public class PlayerController : MonoBehaviour {
         }
 
         body.velocity = movementVector;
+
+        // Do movement animation
+        if (Mathf.Abs(moveValue) < 0.001f) {
+            // If they're basically still, make them stand
+            playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Stand);
+        }
+        else {
+            playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Run);
+        }
     }
 
     void doJump(float jumpValue) {

@@ -7,7 +7,7 @@ public class TimedEventManager : MonoBehaviour {
     protected static TimedEventManager __instance;
     protected List<TimedEvent> __timedEvents;
 
-    protected void Start() {
+    protected void Awake() {
         __instance = this;
         __timedEvents = new List<TimedEvent>();
     }
