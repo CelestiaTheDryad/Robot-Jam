@@ -18,8 +18,6 @@ public class FairyAI : MonoBehaviour
     public float IdleSideRange = 0.6f;              // How far side to side to bob during idle
     public float IdleSideFreq = 1.0f;               // How often to bob side to side during idle
 
-    public float WateringTime = 1.0f;               // How long in seconds it takes to water something
-
     public float MaxDistance = 0.5f;                // How far the player has to be to transfer fairy from idle to follow
     public float WaterMaxDistance = 0.3f;           // How far the fairy has to be from a waterable to start watering it.
 
@@ -30,7 +28,7 @@ public class FairyAI : MonoBehaviour
 
     /*private*/
     public List<Waterable> WaterTargets = new List<Waterable>();
-    private float StartedWatering;
+    private float WateringFinished;
 
     private Vector3 Ideal;
 
@@ -63,7 +61,13 @@ public class FairyAI : MonoBehaviour
         dt = Time.deltaTime;
         t += dt;
 
-        CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - (PlayerBody.velocity.magnitude * WaterDrainRate));
+
+        Vector3 playerVel = PlayerBody.velocity;
+        if (playerVel.y < 0)
+        {
+            playerVel = new Vector3(playerVel.x, 0, playerVel.z);
+        }
+        CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - (playerVel.magnitude * WaterDrainRate));
 
         Position = gameObject.transform.position;
         Vector3 newPosition;
@@ -113,7 +117,7 @@ public class FairyAI : MonoBehaviour
                 break;
             case STATES.WATER:
                 //Debug.Log("Watering");
-                if (Time.fixedTime - StartedWatering > WateringTime)
+                if (Time.fixedTime >= WateringFinished)
                 {
                     if (CanWater())
                     {
@@ -140,7 +144,8 @@ public class FairyAI : MonoBehaviour
         Waterable waterable = WaterTargets[0];
         waterable.Water();
         CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - waterable.WateringCost);
-        StartedWatering = Time.fixedTime;
+        Debug.Log(waterable.WateringTimeNecessary);
+        WateringFinished = Time.fixedTime + waterable.WateringTimeNecessary;
     }
 
     private Vector3 MoveToTarget(GameObject target, float verticalOffset)

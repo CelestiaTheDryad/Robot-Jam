@@ -23,10 +23,6 @@ public class Waterable : MonoBehaviour
         }
         allWaterables.Add(this);
         EnableRendering (Watered);
-
-        TimedEventManager.GetInstance().AddTimedEvent(5f, () => {
-            this.Water();
-        });
     }
 
     // Update is called once per frame
