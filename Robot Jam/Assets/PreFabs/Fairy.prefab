@@ -143,20 +143,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  VerticalOffset: 1
-  Speed: 2
   MeterNeededToWater: 1
   CurrentWaterMeter: 5
   MaxWaterMeter: 5
   WaterDrainRate: 0.0001
-  IdleUpRange: 0.6
-  IdleUpFreq: 6
-  IdleSideRange: 0.6
-  IdleSideFreq: 1
-  MaxDistance: 0.5
+  HealthyState:
+    WaterPctNeeded: 0.75
+    Speed: 2
+    IdleUpRange: 1
+    IdleUpFreq: 10
+    IdleSideRange: 1
+    IdleSideFreq: 3
+    VerticalOffset: 1
+  UnhealthyState:
+    WaterPctNeeded: 0.25
+    Speed: 1.5
+    IdleUpRange: 0.5
+    IdleUpFreq: 5
+    IdleSideRange: 1
+    IdleSideFreq: 3
+    VerticalOffset: 0.7
+  DeathlyState:
+    WaterPctNeeded: 0
+    Speed: 0.5
+    IdleUpRange: 0.2
+    IdleUpFreq: 1
+    IdleSideRange: 1
+    IdleSideFreq: 0.5
+    VerticalOffset: 0.5
+  MaxDistance: 1
   WaterMaxDistance: 0.3
-  waterBar: {fileID: 0}
-  WaterTargets: []
 --- !u!135 &135726865788298186
 SphereCollider:
   m_ObjectHideFlags: 1
