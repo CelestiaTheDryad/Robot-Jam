@@ -137,8 +137,8 @@ public class FairyAI : MonoBehaviour
                 newPosition = Position; // Funky watering movement
                 break;
             default:
-                Debug.Log("Woops");
-                newPosition = Position;
+                //Debug.Log("Woops");
+                newPosition = Player.transform.position;
                 break;
         }
         this.gameObject.transform.position = newPosition;
@@ -148,10 +148,8 @@ public class FairyAI : MonoBehaviour
         Waterable waterable = WaterTargets[0];
         waterable.Water();
         CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - waterable.WateringCost);
-        Debug.Log(waterable.WateringTimeNecessary);
         waterBar.value = CurrentWaterMeter;
         WateringFinished = Time.fixedTime + waterable.WateringTimeNecessary;
-        StartedWatering = Time.fixedTime;
     }
 
     private Vector3 MoveToTarget(GameObject target, float verticalOffset)
@@ -175,7 +173,7 @@ public class FairyAI : MonoBehaviour
 
         Vector3 newPoint = new Vector3(ideal.x, newY, ideal.z);
 
-        Vector3 normal = Vector3.Cross(Camera.main.transform.position, new Vector3(0, 1, 0)).normalized;
+        Vector3 normal = Vector3.Cross(Camera.main.transform.position - ideal, new Vector3(0, 1, 0)).normalized;
         newPoint += normal * Mathf.Sin(t * IdleSideFreq) * IdleSideRange;
 
         Vector3 direction = newPoint - currentPosition;
