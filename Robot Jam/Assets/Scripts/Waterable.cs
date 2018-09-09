@@ -10,6 +10,7 @@ public class Waterable : MonoBehaviour
     public float WateringTimeNecessary = 2f;    // The amount of time the fairy has to "work it" before the tree responds
     [SerializeField] float timeBeforeAnimationStarts = 1f;
     [SerializeField] float timeBeforeSwappingMeshes = 1f;
+    public float VerticalOffset = 0.5f;
     [SerializeField] protected Renderer unwateredStateRenderer;
     [SerializeField] protected Renderer wateredStateRenderer;
     [SerializeField] ParticleSystem[] wateredParticles;
