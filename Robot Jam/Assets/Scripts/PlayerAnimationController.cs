@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationController : MonoBehaviour {
+public class PlayerAnimationController : MonoBehaviour {
 
-    [SerializeField] protected AnimationController animationController;
     [SerializeField] protected Animator theAnimator;
 
 	// Use this for initialization
