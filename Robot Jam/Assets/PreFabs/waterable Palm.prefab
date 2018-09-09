@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 114328362453824540}
   - component: {fileID: 65871764254711730}
   m_Layer: 0
-  m_Name: Palm
+  m_Name: waterable Palm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

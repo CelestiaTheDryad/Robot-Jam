@@ -10,7 +10,8 @@ public class FairyNotifier : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        fairyAI = fairy.GetComponent(typeof(FairyAI)) as FairyAI;
+        //fairyAI = fairy.GetComponent<FairyAI>();
+        // fairyAI = fairy.GetComponent(typeof(FairyAI)) as FairyAI;
     }
 
     // Update is called once per frame
@@ -24,7 +25,7 @@ public class FairyNotifier : MonoBehaviour
         Waterable waterable = other.gameObject.GetComponent(typeof(Waterable)) as Waterable;
         if (waterable != null)
         {
-            fairyAI.FoundWaterTarget(waterable);
+            //fairyAI.FoundWaterTarget(waterable);
         }
     }
 }

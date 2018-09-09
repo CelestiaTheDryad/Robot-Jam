@@ -152,6 +152,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4026203454355444, guid: 77be4a1aa17ee794396d32eed444700e, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026203454355444, guid: 77be4a1aa17ee794396d32eed444700e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.58
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77be4a1aa17ee794396d32eed444700e, type: 2}
   m_IsPrefabAsset: 0
@@ -333,8 +341,8 @@ MonoBehaviour:
   timeBeforeAnimationStarts: 1
   timeBeforeSwappingMeshes: 1
   VerticalOffset: 0.5
-  unwateredStateRenderer: {fileID: 1008749462}
-  wateredStateRenderer: {fileID: 498347714}
+  unwateredObject: {fileID: 0}
+  wateredObject: {fileID: 0}
   wateredParticles:
   - {fileID: 1008749467}
 --- !u!199 &1008749466
