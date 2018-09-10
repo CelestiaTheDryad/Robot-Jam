@@ -1727,9 +1727,16 @@ MonoBehaviour:
   playerDistance: 40.25
   baseSpeed: 3
   jumpSpeed: 10
-  vineSpeed: 1
+  vineSpeed: 2
+  waterPerJump: 5
+  waterPerWalk: 1
+  waterPerClimb: 2
+  maxWater: 100
   mainCamera: {fileID: 1225164276847352}
   playerMesh: {fileID: 4313659955052138}
+  watermeter: {fileID: 0}
+  bottleHandler: {fileID: 0}
+  fairy: {fileID: 0}
   cameraSmoothing: 1
   playerAnimationController: {fileID: 114592941837644976}
 --- !u!114 &114592941837644976

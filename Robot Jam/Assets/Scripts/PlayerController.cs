@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour {
     public GameObject mainCamera;
     public Transform playerMesh;
     public Slider watermeter;
+    public BottleController bottleHandler;
+    public FairyAI fairy;
     public bool cameraSmoothing;
     
     private Rigidbody body;
@@ -26,8 +28,9 @@ public class PlayerController : MonoBehaviour {
     private float amountToDip = 0.0f;
     private float jumpLimiterRange = 0.31f;
     private float vineGrabRange = 0.5f;
-    private float currentWater;
+    public float currentWater;
     private int currentBottles = 4;
+    private bool hasDrunk = false;
 
     //smoothing config values
     private float smoothCameraBaseSpeed = 0.1f;
@@ -44,10 +47,13 @@ public class PlayerController : MonoBehaviour {
         if (playerAnimationController == null) {
             Debug.LogError("No playerAnimationController attached!");
         }
+        watermeter.maxValue = maxWater;
+        watermeter.value = maxWater;
+        bottleHandler.setBottles(currentBottles);
     }
 
     void doMovement(float moveValue) {
-        setWater(currentWater - waterPerWalk * Mathf.Abs(moveValue));
+        setWater(currentWater - waterPerWalk * Mathf.Abs(moveValue) * Time.deltaTime);
         Vector3 positionVector = new Vector3(transform.position.x, 0, transform.position.z);
         //use geometry to get angle
         float playerAngle = Mathf.Acos(positionVector.normalized.z);
@@ -156,6 +162,7 @@ public class PlayerController : MonoBehaviour {
         }
         else {
             currentWater = newWater;
+            watermeter.value = currentWater;
         }
     }
 
@@ -169,6 +176,28 @@ public class PlayerController : MonoBehaviour {
         doMovement(movement);
         float jumpValue = Input.GetAxisRaw("Jump");
         doJump(jumpValue);
+
+        //drink water
+        if(Input.GetAxisRaw("water") < -0.1f) {
+            if (currentBottles > 0 && !hasDrunk) {
+                setWater(maxWater);
+                hasDrunk = true;
+                currentBottles -= 1;
+                bottleHandler.setBottles(currentBottles);
+            }
+        }
+        //give water to fairy
+        else if(Input.GetAxisRaw("water") > 0.1f) {
+            if (!hasDrunk && currentBottles > 0) {
+                fairy.GiveWater(fairy.MaxWaterMeter);
+                hasDrunk = true;
+                currentBottles -= 1;
+                bottleHandler.setBottles(currentBottles);
+            }
+        }
+        else {
+            hasDrunk = false;
+        }
 
         // Notify the animator of our velocity
         playerAnimationController.InformVelocity(body.velocity);
