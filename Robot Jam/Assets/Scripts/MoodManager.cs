@@ -66,13 +66,13 @@ public class MoodManager : MonoBehaviour
         belowLight.color = belowLightColor;
         RenderSettings.ambientLight = skyLightColor;
         ambience0.volume = windbadVolume;
-        ambience1.volume = sitarVolume;
+        //ambience1.volume = sitarVolume;
         ambience2.volume = brookVolume;
         ambience3.volume = gardenVolume;
         ambience4.volume = riverVolume;
         //ambience5.volume = heartVolume;
         ambience6.volume = windgoodVolume;
-        ambience7.volume = chimesVolume;
+        //ambience7.volume = chimesVolume;
     }
 
     // Set the mood to a specific number
@@ -97,6 +97,29 @@ public class MoodManager : MonoBehaviour
         }
         ambience5.volume = Mathf.Lerp(1f, 0f, range);
         ambience5.pitch = Mathf.Lerp(1.43f, .84f, range);
+    }
+
+    public void SetFairyHealth (int _health) {
+        switch (_health) {
+            case 1:
+                // health
+                // Turn on chimes
+                ambience1.enabled = false;
+                ambience7.enabled = true;
+                break;
+            case 0:
+                // unhealth
+                // turn off all fairy sounds
+                ambience1.enabled = false;
+                ambience7.enabled = false;
+                break;
+            case -1:
+                // deathly
+                // turn on sitar
+                ambience1.enabled = true;
+                ambience7.enabled = false;
+                break;
+        }
     }
 
     // Various init classes

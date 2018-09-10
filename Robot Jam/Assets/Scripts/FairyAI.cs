@@ -237,14 +237,17 @@ public class FairyAI : MonoBehaviour
         if (waterPercentage >= HealthyState.WaterPctNeeded)
         {
             newState = HealthyState;
+            MoodManager.GetInstance().SetFairyHealth(1);
         }
         else if (waterPercentage >= UnhealthyState.WaterPctNeeded)
         {
             newState = UnhealthyState;
+            MoodManager.GetInstance().SetFairyHealth(0);
         }
         else
         {
             newState = DeathlyState;
+            MoodManager.GetInstance().SetFairyHealth(-1);
         }
 
         if (newState != currentMoveState)
