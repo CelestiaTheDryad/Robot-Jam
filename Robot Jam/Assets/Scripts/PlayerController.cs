@@ -163,6 +163,7 @@ public class PlayerController : MonoBehaviour {
         else {
             currentWater = newWater;
             watermeter.value = currentWater;
+            MoodManager.GetInstance().SetPlayerHealth(currentWater);
         }
     }
 

@@ -1285,7 +1285,7 @@ MonoBehaviour:
   ambience6: {fileID: 82432165828141524}
   ambience7: {fileID: 82051713354509878}
   goalMood: 0.6
-  blendMoodSpeed: 0.01
+  blendMoodSpeed: 0.05
   theAnimator: {fileID: 0}
 --- !u!114 &114950880596249654
 MonoBehaviour:

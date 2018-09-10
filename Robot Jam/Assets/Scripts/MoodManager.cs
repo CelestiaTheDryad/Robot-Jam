@@ -53,6 +53,7 @@ public class MoodManager : MonoBehaviour
         theAnimator = (theAnimator ? theAnimator : gameObject.GetComponent<Animator>());
         SetMood(goalMood);
         actualMood = goalMood;
+        SetPlayerHealth(100f);
     }
 
     // Update is called once per frame
