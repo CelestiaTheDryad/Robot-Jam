@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TimScene.unity
     guid: d00852b6c935c4c4bbbc335164bbb054
+  - enabled: 1
+    path: Assets/Scenes/masterArt.unity
+    guid: 6c9373692fc7c6f4f87d5103ee05020e
   m_configObjects: {}
