@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
@@ -9,8 +10,15 @@ public class PlayerController : MonoBehaviour {
     public float baseSpeed;
     public float jumpSpeed;
     public float vineSpeed;
+    public float waterPerJump;
+    public float waterPerWalk;
+    public float waterPerClimb;
+    public float maxWater;
     public GameObject mainCamera;
     public Transform playerMesh;
+    public Slider watermeter;
+    public BottleController bottleHandler;
+    public FairyAI fairy;
     public bool cameraSmoothing;
     
     private Rigidbody body;
@@ -20,6 +28,9 @@ public class PlayerController : MonoBehaviour {
     private float amountToDip = 0.0f;
     private float jumpLimiterRange = 0.31f;
     private float vineGrabRange = 0.5f;
+    public float currentWater;
+    private int currentBottles = 4;
+    private bool hasDrunk = false;
 
     //smoothing config values
     private float smoothCameraBaseSpeed = 0.1f;
@@ -32,12 +43,17 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		body = GetComponent<Rigidbody>();
+        currentWater = maxWater;
         if (playerAnimationController == null) {
             Debug.LogError("No playerAnimationController attached!");
         }
+        watermeter.maxValue = maxWater;
+        watermeter.value = maxWater;
+        bottleHandler.setBottles(currentBottles);
     }
 
     void doMovement(float moveValue) {
+        setWater(currentWater - waterPerWalk * Mathf.Abs(moveValue) * Time.deltaTime);
         Vector3 positionVector = new Vector3(transform.position.x, 0, transform.position.z);
         //use geometry to get angle
         float playerAngle = Mathf.Acos(positionVector.normalized.z);
@@ -65,12 +81,14 @@ public class PlayerController : MonoBehaviour {
         body.velocity = movementVector;
 
         // Do movement animation
-        if (Mathf.Abs(moveValue) < 0.001f) {
+        if (Mathf.Abs(moveValue) < .5f) {
             // If they're basically still, make them stand
             playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Stand);
+            playerAnimationController.SetRunState(false);
         }
         else {
             playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Run);
+            playerAnimationController.SetRunState(true);
         }
     }
 
@@ -83,6 +101,11 @@ public class PlayerController : MonoBehaviour {
             //face player towards wall if they're not on ground
             if(!Physics.Raycast(transform.position, new Vector3(0, -1, 0), jumpLimiterRange)) {
                 playerMesh.LookAt(new Vector3(0, playerMesh.position.y, 0));
+                setWater(currentWater - waterPerClimb * Time.deltaTime);
+                playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Climb);
+                //playerAnimationController.ClimbingState(true);
+            } else {
+                //playerAnimationController.ClimbingState(false);
             }
 
             //player holding jump
@@ -112,15 +135,39 @@ public class PlayerController : MonoBehaviour {
         if (jumpValue > 0.5) {
             //if player is on a jumpable surface
             if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), jumpLimiterRange) && !hasJumped) {
+                setWater(currentWater - waterPerJump);
                 //change vertical velocity to jump velocity
                 body.velocity = new Vector3(body.velocity.x, jumpSpeed, body.velocity.z);
-
                 hasJumped = true;
+                playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.JumpUp);
+
             }
         }
         else {
             hasJumped = false;
         }
+    }
+
+    void setWater(float newWater) {
+        if(newWater < 0.0f) {
+            if (currentBottles > 0) {
+                currentBottles -= 1;
+            }
+            else {
+                die();
+            }
+        }
+        else if (newWater > maxWater) {
+            currentWater = maxWater;
+        }
+        else {
+            currentWater = newWater;
+            watermeter.value = currentWater;
+        }
+    }
+
+    void die() {
+
     }
 	
 	// Update is called once per frame
@@ -129,6 +176,31 @@ public class PlayerController : MonoBehaviour {
         doMovement(movement);
         float jumpValue = Input.GetAxisRaw("Jump");
         doJump(jumpValue);
+
+        //drink water
+        if(Input.GetAxisRaw("water") < -0.1f) {
+            if (currentBottles > 0 && !hasDrunk) {
+                setWater(maxWater);
+                hasDrunk = true;
+                currentBottles -= 1;
+                bottleHandler.setBottles(currentBottles);
+            }
+        }
+        //give water to fairy
+        else if(Input.GetAxisRaw("water") > 0.1f) {
+            if (!hasDrunk && currentBottles > 0) {
+                fairy.GiveWater(fairy.MaxWaterMeter);
+                hasDrunk = true;
+                currentBottles -= 1;
+                bottleHandler.setBottles(currentBottles);
+            }
+        }
+        else {
+            hasDrunk = false;
+        }
+
+        // Notify the animator of our velocity
+        playerAnimationController.InformVelocity(body.velocity);
 
         //lock player to circle
         Vector3 rawPosition = new Vector3(transform.position.x, 0, transform.position.z);

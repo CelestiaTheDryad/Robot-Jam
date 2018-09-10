@@ -53,11 +53,6 @@ public class MoodManager : MonoBehaviour
         theAnimator = (theAnimator ? theAnimator : gameObject.GetComponent<Animator>());
         SetMood(goalMood);
         actualMood = goalMood;
- 
-        // Test change mood
-        TimedEventManager.GetInstance().AddTimedEvent(4f, () => {
-            SetMood(0.1f);
-        });
     }
 
     // Update is called once per frame
@@ -74,7 +69,7 @@ public class MoodManager : MonoBehaviour
         ambience2.volume = brookVolume;
         ambience3.volume = gardenVolume;
         ambience4.volume = riverVolume;
-        ambience5.volume = heartVolume;
+        //ambience5.volume = heartVolume;
         ambience6.volume = windgoodVolume;
         ambience7.volume = chimesVolume;
     }
@@ -90,6 +85,17 @@ public class MoodManager : MonoBehaviour
         actualMood += (goalMood - actualMood) * blendMoodSpeed;
         theAnimator.PlayInFixedTime("Mood Animation", 0, actualMood);
         theAnimator.StopPlayback();
+    }
+
+    public void SetPlayerHealth (float _health) {
+        float range = 0f;
+        if (_health > 25) {
+            range = 1f;
+        } else {
+            range = _health / 25f;
+        }
+        ambience5.volume = Mathf.Lerp(1f, 0, range);
+        ambience5.pitch = Mathf.Lerp(1.43, .84, range);
     }
 
     // Various init classes
