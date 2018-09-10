@@ -94,8 +94,8 @@ public class MoodManager : MonoBehaviour
         } else {
             range = _health / 25f;
         }
-        ambience5.volume = Mathf.Lerp(1f, 0, range);
-        ambience5.pitch = Mathf.Lerp(1.43, .84, range);
+        ambience5.volume = Mathf.Lerp(1f, 0f, range);
+        ambience5.pitch = Mathf.Lerp(1.43f, .84f, range);
     }
 
     // Various init classes
