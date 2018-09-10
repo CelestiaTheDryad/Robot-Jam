@@ -31,6 +31,19 @@ public class Waterable : MonoBehaviour
 
     }
 
+    float lastHealthCheckTime = -1f;
+    private void LateUpdate() {
+        if (lastHealthCheckTime != Time.time) {
+            lastHealthCheckTime = Time.time;
+            int total = allWaterables.Count;
+            int watered = 0;
+            foreach (Waterable i in allWaterables) {
+                if (i.Watered) watered++;
+            }
+            MoodManager.GetInstance().SetMood(watered / total);
+        }
+    }
+
     void EnableRendering (bool _watered) {
         if (unwateredObject != null) {
             unwateredObject.SetActive(!_watered);
