@@ -250,6 +250,10 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        //handle oasis here
+        if(other.gameObject.tag.Equals("Oasis")) {
+            currentBottles = 4;
+            bottleHandler.setBottles(4);
+            setWater(maxWater);
+        }
     }
 }
