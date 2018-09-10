@@ -53,11 +53,6 @@ public class MoodManager : MonoBehaviour
         theAnimator = (theAnimator ? theAnimator : gameObject.GetComponent<Animator>());
         SetMood(goalMood);
         actualMood = goalMood;
- 
-        // Test change mood
-        TimedEventManager.GetInstance().AddTimedEvent(4f, () => {
-            SetMood(0.1f);
-        });
     }
 
     // Update is called once per frame

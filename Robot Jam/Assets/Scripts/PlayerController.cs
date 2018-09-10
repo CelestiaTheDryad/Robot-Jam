@@ -75,12 +75,14 @@ public class PlayerController : MonoBehaviour {
         body.velocity = movementVector;
 
         // Do movement animation
-        if (Mathf.Abs(moveValue) < 0.001f) {
+        if (Mathf.Abs(moveValue) < .5f) {
             // If they're basically still, make them stand
             playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Stand);
+            playerAnimationController.SetRunState(false);
         }
         else {
             playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Run);
+            playerAnimationController.SetRunState(true);
         }
     }
 
@@ -94,6 +96,10 @@ public class PlayerController : MonoBehaviour {
             if(!Physics.Raycast(transform.position, new Vector3(0, -1, 0), jumpLimiterRange)) {
                 playerMesh.LookAt(new Vector3(0, playerMesh.position.y, 0));
                 setWater(currentWater - waterPerClimb * Time.deltaTime);
+                playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Climb);
+                //playerAnimationController.ClimbingState(true);
+            } else {
+                //playerAnimationController.ClimbingState(false);
             }
 
             //player holding jump
@@ -126,8 +132,9 @@ public class PlayerController : MonoBehaviour {
                 setWater(currentWater - waterPerJump);
                 //change vertical velocity to jump velocity
                 body.velocity = new Vector3(body.velocity.x, jumpSpeed, body.velocity.z);
-
                 hasJumped = true;
+                playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.JumpUp);
+
             }
         }
         else {
@@ -163,16 +170,8 @@ public class PlayerController : MonoBehaviour {
         float jumpValue = Input.GetAxisRaw("Jump");
         doJump(jumpValue);
 
-        //drink water
-        if (Input.GetAxisRaw("Submit") > 0.1f) {
-
-        }
-
-        //give water to fairy
-        if (Input.GetAxisRaw("Cancel") > 0.1f) {
-
-        }
-
+        // Notify the animator of our velocity
+        playerAnimationController.InformVelocity(body.velocity);
 
         //lock player to circle
         Vector3 rawPosition = new Vector3(transform.position.x, 0, transform.position.z);

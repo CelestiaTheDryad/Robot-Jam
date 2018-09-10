@@ -13,7 +13,7 @@ public class FairyAI : MonoBehaviour
     public float WaterDrainRate = 0.0001f;          // Rate of water drain during player movement
 
     [System.Serializable]
-    public struct MoveState
+    public class MoveState
     {
         public float WaterPctNeeded;             // Percentage of water meter needed >= to be in this state.
         public float Speed;                      // How fast the fairy is
@@ -22,6 +22,8 @@ public class FairyAI : MonoBehaviour
         public float IdleSideRange;              // How far side to side to bob during idle
         public float IdleSideFreq;               // How often to bob side to side during idle
         public float VerticalOffset;             // How far above the player should the fairy float
+
+        public ParticleSystem particles;
     }
 
     public MoveState HealthyState;
@@ -41,10 +43,19 @@ public class FairyAI : MonoBehaviour
 
     private Vector3 Ideal;
 
+    private MoveState currentMoveState;
     private STATES CurrentState;
 
     private float t;
     private float dt;
+
+    private MOVE_STATES CURRENT_MOVE_STATE;
+    enum MOVE_STATES
+    {
+        HEALTHY,
+        UNHEALTHY,
+        DEATHLY,
+    }
 
     enum STATES
     {
@@ -59,8 +70,12 @@ public class FairyAI : MonoBehaviour
     void Start()
     {
         CurrentState = STATES.FOLLOW;
+        currentMoveState = HealthyState;
+        (gameObject.GetComponent<MeshRenderer>() as MeshRenderer).material.color = GetMoveState().particles.main.startColor.color;
         Position = gameObject.transform.position;
         PlayerBody = Player.GetComponent<Rigidbody>();
+        UnhealthyState.particles.Pause();
+        DeathlyState.particles.Pause();
     }
 
     // Update is called once per frame
@@ -76,7 +91,7 @@ public class FairyAI : MonoBehaviour
             playerVel = new Vector3(playerVel.x, 0, playerVel.z);
         }
         CurrentWaterMeter = Mathf.Max(0, CurrentWaterMeter - (playerVel.magnitude * WaterDrainRate));
-        MoveState moveState = GetMoveState();
+        currentMoveState = GetMoveState();
 
         Position = gameObject.transform.position;
         Vector3 newPosition;
@@ -89,9 +104,9 @@ public class FairyAI : MonoBehaviour
                     CurrentState = STATES.MOVE_TO_WATER;
                     goto case STATES.MOVE_TO_WATER;
                 }
-                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, moveState.VerticalOffset)) < MaxDistance)
+                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, currentMoveState.VerticalOffset)) < MaxDistance)
                 {
-                    newPosition = IdleRoutine(Position, moveState);
+                    newPosition = IdleRoutine(Position, currentMoveState);
                     break;
                 }
                 CurrentState = STATES.FOLLOW;
@@ -103,12 +118,12 @@ public class FairyAI : MonoBehaviour
                     CurrentState = STATES.MOVE_TO_WATER;
                     goto case STATES.MOVE_TO_WATER;
                 }
-                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, moveState.VerticalOffset)) < MaxDistance)
+                if (Vector3.Distance(Position, GetIdealFollowPosition(Player, currentMoveState.VerticalOffset)) < MaxDistance)
                 {
                     CurrentState = STATES.IDLE;
                     goto case STATES.IDLE;
                 }
-                newPosition = MoveToTarget(Player, moveState, moveState.VerticalOffset);
+                newPosition = MoveToTarget(Player, currentMoveState, currentMoveState.VerticalOffset);
                 Position = newPosition;
                 break;
             case STATES.MOVE_TO_WATER:
@@ -121,7 +136,7 @@ public class FairyAI : MonoBehaviour
                     StartWatering();
                     goto case STATES.WATER;
                 }
-                newPosition = MoveToTarget(waterTarget.gameObject, moveState, waterTarget.VerticalOffset);
+                newPosition = MoveToTarget(waterTarget.gameObject, currentMoveState, waterTarget.VerticalOffset);
                 Position = newPosition;
                 break;
             case STATES.WATER:
@@ -217,19 +232,29 @@ public class FairyAI : MonoBehaviour
 
     private MoveState GetMoveState()
     {
+        MoveState newState;
         float waterPercentage = CurrentWaterMeter / MaxWaterMeter;
         if (waterPercentage >= HealthyState.WaterPctNeeded)
         {
-            return HealthyState;
+            newState = HealthyState;
         }
         else if (waterPercentage >= UnhealthyState.WaterPctNeeded)
         {
-            return UnhealthyState;
+            newState = UnhealthyState;
         }
         else
         {
-            return DeathlyState;
+            newState = DeathlyState;
         }
+
+        if (newState != currentMoveState)
+        {
+            currentMoveState.particles.Stop();
+            newState.particles.Play();
+            (gameObject.GetComponent<MeshRenderer>() as MeshRenderer).material.color = newState.particles.main.startColor.color;
+        }
+
+        return newState;
     }
 
 }
