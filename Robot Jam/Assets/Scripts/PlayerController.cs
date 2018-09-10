@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour {
     public float currentWater;
     private int currentBottles = 4;
     private bool hasDrunk = false;
+    private bool goneToStart = false;
 
     //smoothing config values
     private float smoothCameraBaseSpeed = 0.1f;
@@ -150,12 +151,7 @@ public class PlayerController : MonoBehaviour {
 
     void setWater(float newWater) {
         if(newWater < 0.0f) {
-            if (currentBottles > 0) {
-                currentBottles -= 1;
-            }
-            else {
-                die();
-            }
+            die();
         }
         else if (newWater > maxWater) {
             currentWater = maxWater;
@@ -163,11 +159,12 @@ public class PlayerController : MonoBehaviour {
         else {
             currentWater = newWater;
             watermeter.value = currentWater;
+            MoodManager.GetInstance().SetPlayerHealth(currentWater);
         }
     }
 
     void die() {
-
+        Debug.Log("You Died");
     }
 	
 	// Update is called once per frame
@@ -241,6 +238,23 @@ public class PlayerController : MonoBehaviour {
         else {
             mainCamera.transform.position = cameraPosition;
             mainCamera.transform.LookAt(this.transform);
+        }
+
+        if(transform.position.y > 77.4 && transform.position.x < -12.4 && !goneToStart) {
+            Invoke("goToStart", 2);
+            goneToStart = true;
+        }
+    }
+
+    void goToStart() {
+        transform.position = new Vector3(-2.6f, 12.34f, -41f);
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.tag.Equals("Oasis")) {
+            currentBottles = 4;
+            bottleHandler.setBottles(4);
+            setWater(maxWater);
         }
     }
 }
