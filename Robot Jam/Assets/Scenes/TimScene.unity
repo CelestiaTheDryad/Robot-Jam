@@ -157,6 +157,16 @@ Prefab:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1180765813}
+    - target: {fileID: 198169063768135666, guid: 043eb816c945e9f4281161e0683d9b81,
+        type: 2}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 198169063768135666, guid: 043eb816c945e9f4281161e0683d9b81,
+        type: 2}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.66
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 043eb816c945e9f4281161e0683d9b81, type: 2}
   m_IsPrefabAsset: 0
@@ -1204,6 +1214,11 @@ Prefab:
       propertyPath: fairy
       value: 
       objectReference: {fileID: 760487487}
+    - target: {fileID: 114271284723793068, guid: 77be4a1aa17ee794396d32eed444700e,
+        type: 2}
+      propertyPath: playerDistance
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77be4a1aa17ee794396d32eed444700e, type: 2}
   m_IsPrefabAsset: 0
