@@ -27,6 +27,10 @@ public class PlayerAnimationController : MonoBehaviour {
         theAnimator.SetBool("isRunning", running);
     }
 
+    public void ClimbingState (bool _climb) {
+        theAnimator.SetBool("isClimbing", _climb);
+    }
+
     public void SetAction(ePlayerAction _action) {
         if (_action != currentAction) {
             switch (_action) {
@@ -36,7 +40,9 @@ public class PlayerAnimationController : MonoBehaviour {
                     break;
                 case ePlayerAction.JumpUp:
                     theAnimator.SetTrigger("StartJump");
-                    Debug.Log("Start Jump!");
+                    break;
+                case ePlayerAction.Climb:
+                    theAnimator.SetTrigger("startClimb");
                     break;
                 default:
                     break;
@@ -46,6 +52,6 @@ public class PlayerAnimationController : MonoBehaviour {
     }
 
     public enum ePlayerAction {
-        Stand, Run, JumpUp, Fall, Drink, Share, Die
+        Stand, Run, JumpUp, Fall, Drink, Share, Die, Climb
     }
 }

@@ -85,6 +85,10 @@ public class PlayerController : MonoBehaviour {
             //face player towards wall if they're not on ground
             if(!Physics.Raycast(transform.position, new Vector3(0, -1, 0), jumpLimiterRange)) {
                 playerMesh.LookAt(new Vector3(0, playerMesh.position.y, 0));
+                playerAnimationController.SetAction(PlayerAnimationController.ePlayerAction.Climb);
+                //playerAnimationController.ClimbingState(true);
+            } else {
+                //playerAnimationController.ClimbingState(false);
             }
 
             //player holding jump

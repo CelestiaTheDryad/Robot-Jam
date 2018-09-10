@@ -160,6 +160,16 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 2.58
       objectReference: {fileID: 0}
+    - target: {fileID: 114271284723793068, guid: 77be4a1aa17ee794396d32eed444700e,
+        type: 2}
+      propertyPath: cameraDistance
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271284723793068, guid: 77be4a1aa17ee794396d32eed444700e,
+        type: 2}
+      propertyPath: playerDistance
+      value: 40.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77be4a1aa17ee794396d32eed444700e, type: 2}
   m_IsPrefabAsset: 0
